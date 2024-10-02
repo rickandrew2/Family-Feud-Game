@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <title>Family Feud Game</title>
+</head>
+<body>
+    <!-- Bootstrap Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Family Feud</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Rules</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Leaderboard</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Game Container -->
+    <div id="game-container" class="container">
+        <!-- Header Section -->
+        <header id="game-header" class="text-center py-4 bg-primary text-white">
+            <h1>Family Feud Game</h1>
+        </header>
+
+        <!-- Game Content -->
+        <section class="row">
+            <div class="col-md-8">
+                <h2>How the Game Works</h2>
+                <p>Family Feud is a game where two teams compete to guess the most popular answers to survey questions. Each correct answer gives points, and the team with the most points wins!</p>
+
+                <h2>Game Setup</h2>
+                <ul>
+                    <li>Answer 1</li>
+                    <li>Answer 2</li>
+                    <li>Answer 3</li>
+                    <li>Answer 4</li>
+                </ul>
+            <div class="questions">Question:</div>
+                <!-- Answer Form -->
+                <form id="answer-input-form" class="d-flex align-items-center">
+                    <label for="answer-input" class="mr-2">Your Answer:</label>
+                    <input type="text" id="answer-input" name="answer" class="form-control mr-2">
+                    <button type="submit" class="btn btn-primary" id="submit-answer">Submit</button>
+                </form>
+            </div>
+
+            <!-- Wrong Answer Image -->
+            <img id="wrong-answer-image" src="buzzer.png" alt="Wrong Answer" style="display: none; width: 300px; margin: 20px auto;"/>
+
+
+            <!-- Player Names Form -->
+            <div class="col-md-4">
+                <form id="player-names-form" class="mt-4">
+                    <div class="form-group">
+                        <label for="player1-name">Player 1 Name:</label>
+                        <input type="text" id="player1-name" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="player2-name">Player 2 Name:</label>
+                        <input type="text" id="player2-name" class="form-control" required>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- Game Controls Section -->
+        <section class="row">
+            <div class="col-md-8">
+                <aside class="team-controls d-flex justify-content-around mt-4">
+                    <button id="pass-btn" class="btn btn-primary">Pass</button>
+                    <button id="play-btn" class="btn btn-primary">Play</button>
+                </aside>
+            </div>
+
+            <!-- Timer and Buzzer -->
+            <div class="col-md-4 d-flex flex-column justify-content-center mt-4">
+                <progress id="timer" value="0" max="100" class="my-3">Time left</progress>
+                <img src="buzzer.png" alt="Family Feud-style buzzer" class="img-fluid">
+            </div>
+        </section>
+
+        <!-- Score Table -->
+        <table class="score-table table table-bordered mt-4 text-center">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Team 1</th>
+                    <th>Team 2</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td id="team1-score">0</td>
+                    <td id="team2-score">0</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Start Game Button -->
+        <div class="text-center">
+            <button id="start-game-btn" class="btn btn-primary">Start Game</button>
+        </div>
+
+        <!-- Results Section -->
+        <div id="results" class="mt-4 p-4 bg-warning text-white">
+            <h2>Results</h2>
+            <ul id="answer-list">
+                <!-- Dynamically added answers and points will go here -->
+            </ul>
+        </div>
+
+        <!-- Background Music -->
+        <audio src="background-music.mp3" controls autoplay loop class="mt-3"></audio>
+
+        <!-- Footer Section -->
+        <footer class="text-center mt-5" id="game-over-footer" style="display: none;">
+            <h3>Game Over!</h3>
+            <p>Thanks for playing Family Feud!</p>
+        </footer>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
