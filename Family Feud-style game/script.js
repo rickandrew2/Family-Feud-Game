@@ -48,23 +48,43 @@ var app = {
         wrongAudio: new Audio("audio/The Family Feud Buzzer Sound Effect.mp3"),
 
         allData: {
-            "What is the capital of France?": [
-                ["Paris", 10],
-                ["Lyon", 5],
-                ["Marseille", 3]
+            "Magbigay ng salitang pwedeng pang-describe sa saging?": [
+                ["Mahaba", 43],
+                ["Masarap", 10],
+                ["Matamis", 9],
+                ["Dilaw", 6],
+                ["Malambot", 4]
             ],
-            "What is the largest planet in our solar system?": [
-                ["Jupiter", 10],
-                ["Saturn", 5],
-                ["Earth", 3]
+            "Mahirap maging (blank).": [
+                ["Pogi", 60],
+                ["Mahirap", 17],
+                ["Mabait", 4],
+                ["Pangit", 4],
+                ["Single", 3]
             ],
-            "Who wrote 'Romeo and Juliet'?": [
-                ["Shakespeare", 10],
-                ["Dickens", 5],
-                ["Hemingway", 3]
+            "Anong mga pambobola ang sinasabi ng lalaki sa babae?": [
+                ["Ang ganda mo", 32],
+                ["Ikaw lang wala na", 31],
+                ["Di kita iiwan", 8],
+                ["I miss you", 8],
+                ["Ang sexy mo", 3]
+            ],
+            "Magbigay ng tunog na nalilikha ng katawan?": [
+                ["Utot", 24],
+                ["Boses", 14],
+                ["Sipol", 10],
+                ["Hilik", 9],
+                ["Palakpak", 8]
+            ],
+            "Sino kinakausap mo pag may problem ka sa lovelife?": [
+                ["Friend", 51],
+                ["Parents", 13],
+                ["Kapatid", 6],
+                ["Sarili", 4],
+                ["Lord", 3]
             ]
             // Add more questions as needed
-        }, 
+        },
         
         
     // Utility functions
@@ -82,8 +102,7 @@ var app = {
 
     jsonLoaded: function (data) {
         console.clear();
-        app.allData = data;
-        app.questions = Object.keys(data);
+        app.questions = Object.keys(app.allData); // Updated to use app.allData directly
         app.shuffle(app.questions);
         app.makeQuestion(app.currentQ);
         $('body').append(app.board);
@@ -129,22 +148,23 @@ var app = {
     makeQuestion: function (qNum) {
         var qText = app.questions[qNum];
         var qAnswr = app.allData[qText];
-
-        var qNum = qAnswr.length;
-        qNum = (qNum < 8) ? 8 : qNum;
-        qNum = (qNum % 2 != 0) ? qNum + 1 : qNum;
-
+    
+        // Rename this variable to avoid shadowing
+        var numAnswers = qAnswr.length;
+        numAnswers = (numAnswers < 8) ? 8 : numAnswers;
+        numAnswers = (numAnswers % 2 !== 0) ? numAnswers + 1 : numAnswers;
+    
         var boardScore = app.board.find("#boardScore");
         var question = app.board.find(".question");
         var col1 = app.board.find(".col1");
         var col2 = app.board.find(".col2");
-
+    
         boardScore.html(0);
         question.html(qText.replace(/&x22;/gi, '"'));
         col1.empty();
         col2.empty();
-
-        for (var i = 0; i < qNum; i++) {
+    
+        for (var i = 0; i < numAnswers; i++) {
             var aLI;
             if (qAnswr[i]) {
                 aLI = $("<div class='cardHolder'>" +
@@ -161,28 +181,41 @@ var app = {
             } else {
                 aLI = $("<div class='cardHolder empty'><div></div></div>");
             }
-            var parentDiv = (i < (qNum / 2)) ? col1 : col2;
+            var parentDiv = (i < (numAnswers / 2)) ? col1 : col2;
             $(aLI).appendTo(parentDiv);
         }
-
+    
         var cardHolders = app.board.find('.cardHolder');
         var cards = app.board.find('.card');
         var backs = app.board.find('.back');
         var cardSides = app.board.find('.card>div');
-
+    
         TweenLite.set(cardHolders, { perspective: 800 });
         TweenLite.set(cards, { transformStyle: "preserve-3d" });
         TweenLite.set(backs, { rotationX: 180 });
         TweenLite.set(cardSides, { backfaceVisibility: "hidden" });
-
+    
+        // Initialize flipped state
         cards.data("flipped", false);
-
+    
+        // Using arrow function to preserve 'this' context
+        cardHolders.on('click', function() {
+            var card = $(this).find('.card');
+            var flipped = card.data("flipped");
+            var cardRotate = flipped ? 0 : 180; // Corrected rotation logic
+            TweenLite.to(card, 1, { rotationX: cardRotate, ease: Back.easeOut });
+            card.data("flipped", !flipped); // Toggle flipped state
+            app.getBoardScore();
+        });
+    
         // Reset strikes and current team for new question
         app.teamStrikes = {1: 0, 2: 0};
         app.updateStrikesDisplay();
         app.currentTeam = 1;
         app.updateTurnIndicator();
     },
+    
+    
 
     checkAnswer: function () {
         var userAnswer = $('#userAnswer').val().toLowerCase().trim();
@@ -232,7 +265,7 @@ var app = {
             app.updateStrikesDisplay();
         }
     },
-
+    
     getBoardScore: function () {
         var cards = app.board.find('.card');
         var boardScore = app.board.find('#boardScore');
@@ -286,7 +319,6 @@ var app = {
 
         // Automatically change to the next question after awarding points
         setTimeout(function () {
-            app.changeQuestion();
         }, 1000);
     },
 
@@ -316,7 +348,7 @@ var app = {
     
         // Show the Start Game button
         const startGameButton = document.getElementById('startGame');
-        startGameButton.style.display = 'block';
+        startGameButton.style.display = 'none';
     
         // Add click event listener to the Start Game button
         startGameButton.addEventListener('click', function() {
