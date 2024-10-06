@@ -63,6 +63,5 @@ This is a web-based implementation of the classic game show **Family Feud**. Two
 ## Contributions
 Feel free to fork the repository and submit pull requests with improvements or additional features.
 
-## License
-This project is licensed under the MIT License.
+
 
