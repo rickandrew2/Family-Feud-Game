@@ -61,6 +61,7 @@ This is a web-based implementation of the classic game show **Family Feud**. Two
 3. Open the `index.html` file in your web browser to start the game.
 
 ## Contributions
+s
 Feel free to fork the repository and submit pull requests with improvements or additional features.
 
 
